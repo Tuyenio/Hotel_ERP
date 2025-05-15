@@ -2,16 +2,16 @@
 <script src="../public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- App -->
+<!-- Ứng dụng -->
 <script src="../public/js/back_office.min.js"></script>
-<!-- Dashboard  -->
+<!-- Bảng điều khiển -->
 <script src="../public/js/pages/dashboard2.js"></script>
 <!-- overlayScrollbars -->
 <script src="../public/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- DataTables -->
 <script src="../public/plugins/datatables/jquery.dataTables.js"></script>
 <script src="../public/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<!-- Init Data Tables -->
+<!-- Khởi tạo Data Tables -->
 <script>
     $(function() {
         $("#dt-1").DataTable();
@@ -25,9 +25,9 @@
         });
     });
 </script>
-<!-- Reportings Data Tables -->
+<!-- Báo cáo Data Tables -->
 <script src="../public/plugins/table/datatable/datatables.js"></script>
-<!-- NOTE TO Use Copy CSV Excel PDF Print Options You Must Include These Files  -->
+<!-- LƯU Ý: Để sử dụng các tuỳ chọn Sao chép, CSV, Excel, PDF, In, bạn phải bao gồm các tệp này -->
 <script src="../public/plugins/table/datatable/button-ext/dataTables.buttons.min.js"></script>
 <script src="../public/plugins/table/datatable/button-ext/jszip.min.js"></script>
 <script src="../public/plugins/table/datatable/button-ext/buttons.html5.min.js"></script>
@@ -38,19 +38,23 @@
         buttons: {
             buttons: [{
                     extend: 'copy',
-                    className: 'btn'
+                    className: 'btn',
+                    text: 'Sao chép'
                 },
                 {
                     extend: 'csv',
-                    className: 'btn'
+                    className: 'btn',
+                    text: 'Xuất CSV'
                 },
                 {
                     extend: 'excel',
-                    className: 'btn'
+                    className: 'btn',
+                    text: 'Xuất Excel'
                 },
                 {
                     extend: 'print',
-                    className: 'btn'
+                    className: 'btn',
+                    text: 'In'
                 }
 
             ]
@@ -60,97 +64,99 @@
                 "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
                 "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
             },
-            "sInfo": "Hiển thị trang _PAGE_ trên _PAGES_",
+            "sInfo": "Hiển thị trang _PAGE_ trên tổng số _PAGES_",
             "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-            "sSearchPlaceholder": "Search...",
-            "sLengthMenu": "Results :  _MENU_",
+            "sSearchPlaceholder": "Tìm kiếm...",
+            "sLengthMenu": "Kết quả: _MENU_",
+            "sZeroRecords": "Không tìm thấy dữ liệu phù hợp",
+            "sInfoEmpty": "Không có dữ liệu để hiển thị",
+            "sInfoFiltered": "(lọc từ tổng số _MAX_ bản ghi)",
+            "sLoadingRecords": "Đang tải...",
+            "sProcessing": "Đang xử lý...",
+            "sEmptyTable": "Không có dữ liệu trong bảng"
         },
         "stripeClasses": [],
         "lengthMenu": [7, 10, 20, 50],
         "pageLength": 7
     });
 </script>
-<!-- Custom File Uploads -->
+<!-- Tuỳ chỉnh tải tệp -->
 <script src="../public/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <script>
     $(document).ready(function() {
         bsCustomFileInput.init();
     });
 </script>
-<!-- Select -->
+<!-- Chọn -->
 <script src="../public/plugins/select2/js/select2.full.min.js"></script>
 <script>
     var ss = $(".basic").select2({
         tags: true,
+        language: {
+            noResults: function() {
+                return "Không tìm thấy kết quả";
+            },
+            searching: function() {
+                return "Đang tìm kiếm...";
+            }
+        }
     });
 </script>
 <script>
-    /* Room Details Asyc */
-    function getRoomDetails(val) {
+    /* Lấy thông tin phòng (bất đồng bộ) */
+    function layThongTinPhong(val) {
         $.ajax({
-
             type: "POST",
             url: "../partials/ajax.php",
             data: 'RNumber=' + val,
             success: function(data) {
-                //alert(data);
                 $('#RID').val(data);
             }
         });
 
         $.ajax({
-
             type: "POST",
             url: "../partials/ajax.php",
             data: 'RID=' + val,
             success: function(data) {
-                //alert(data);
                 $('#RCost').val(data);
             }
         });
 
         $.ajax({
-
             type: "POST",
             url: "../partials/ajax.php",
             data: 'RCost=' + val,
             success: function(data) {
-                //alert(data);
                 $('#RType').val(data);
             }
         });
-
     }
 
-    function getStaffDetails(val) {
+    /* Lấy thông tin nhân viên */
+    function layThongTinNhanVien(val) {
         $.ajax({
-
             type: "POST",
             url: "../partials/ajax.php",
             data: 'StaffNumber=' + val,
             success: function(data) {
-                //alert(data);
                 $('#StaffID').val(data);
             }
         });
 
         $.ajax({
-
             type: "POST",
             url: "../partials/ajax.php",
             data: 'StaffID=' + val,
             success: function(data) {
-                //alert(data);
                 $('#StaffName').val(data);
             }
         });
-
-
     }
 </script>
-<!-- Print Contents In A Div  -->
+<!-- In nội dung trong một thẻ div -->
 <script>
-    function printContent(el) {
+    function inNoiDung(el) {
         var restorepage = $('body').html();
         var printcontent = $('#' + el).clone();
         $('body').empty().html(printcontent);
