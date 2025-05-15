@@ -143,10 +143,10 @@ require_once('../partials/head.php');
                         <div class="page-title-box">
                             <div class="row">
                                 <div class="col">
-                                    <h4 class="page-title">Quản lý sự hiện diện của nhân viên</h4>
+                                    <h4 class="page-title">Quản lý chấm công nhân viên</h4>
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="dashboard.php">Bảng điều khiển</a></li>
-                                        <li class="breadcrumb-item active">Sự hiện diện</li>
+                                        <li class="breadcrumb-item"><a href="dashboard.php">Trang chủ</a></li>
+                                        <li class="breadcrumb-item active">Chấm công</li>
                                     </ol>
                                 </div>
                             </div>
@@ -159,7 +159,7 @@ require_once('../partials/head.php');
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Thêm bản ghi sự hiện diện mới</h4>
+                                <h4 class="card-title">Thêm chấm công mới</h4>
                             </div>
                             <div class="card-body">
                                 <form method="POST" enctype="multipart/form-data">
@@ -191,13 +191,13 @@ require_once('../partials/head.php');
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>Thời gian vào</label>
+                                                <label>Giờ vào</label>
                                                 <input type="time" name="check_in" required class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>Thời gian ra</label>
+                                                <label>Giờ ra</label>
                                                 <input type="time" name="check_out" required class="form-control">
                                             </div>
                                         </div>
@@ -218,7 +218,7 @@ require_once('../partials/head.php');
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <button type="submit" name="Add_Attendance" class="btn btn-primary">Thêm sự hiện diện</button>
+                                            <button type="submit" name="Add_Attendance" class="btn btn-primary">Thêm chấm công</button>
                                         </div>
                                     </div>
                                 </form>
@@ -231,7 +231,7 @@ require_once('../partials/head.php');
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Bản ghi sự hiện diện</h4>
+                                <h4 class="card-title">Danh sách chấm công</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -240,18 +240,18 @@ require_once('../partials/head.php');
                                             <tr>
                                                 <th>Nhân viên</th>
                                                 <th>Ngày</th>
-                                                <th>Thời gian vào</th>
-                                                <th>Thời gian ra</th>
+                                                <th>Giờ vào</th>
+                                                <th>Giờ ra</th>
                                                 <th>Trạng thái</th>
-                                                <th>Hành động</th>
+                                                <th>Thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             $ret = "SELECT a.*, s.name as staff_name, s.number as staff_number 
-                                                   FROM attendance a 
-                                                   INNER JOIN staffs s ON a.staff_id = s.id 
-                                                   ORDER BY a.date DESC";
+                                                FROM attendance a 
+                                                INNER JOIN staffs s ON a.staff_id = s.id 
+                                                ORDER BY a.date DESC";
                                             $stmt = $mysqli->prepare($ret);
                                             $stmt->execute();
                                             $res = $stmt->get_result();
@@ -273,7 +273,7 @@ require_once('../partials/head.php');
                                                     <div class="modal-dialog modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Cập nhật sự hiện diện</h5>
+                                                                <h5 class="modal-title" id="exampleModalLabel">Cập nhật chấm công</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -283,13 +283,13 @@ require_once('../partials/head.php');
                                                                     <div class="row">
                                                                         <div class="col-lg-6">
                                                                             <div class="form-group">
-                                                                                <label>Thời gian vào</label>
+                                                                                <label>Giờ vào</label>
                                                                                 <input type="time" name="check_in" value="<?php echo $attendance->check_in; ?>" required class="form-control">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-lg-6">
                                                                             <div class="form-group">
-                                                                                <label>Thời gian ra</label>
+                                                                                <label>Giờ ra</label>
                                                                                 <input type="time" name="check_out" value="<?php echo $attendance->check_out; ?>" required class="form-control">
                                                                             </div>
                                                                         </div>
@@ -310,7 +310,7 @@ require_once('../partials/head.php');
                                                                     <div class="row">
                                                                         <div class="col-lg-12">
                                                                             <input type="hidden" name="id" value="<?php echo $attendance->id; ?>">
-                                                                            <button type="submit" name="Update_Attendance" class="btn btn-primary">Cập nhật sự hiện diện</button>
+                                                                            <button type="submit" name="Update_Attendance" class="btn btn-primary">Cập nhật chấm công</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
@@ -330,7 +330,7 @@ require_once('../partials/head.php');
         </div>
         <!-- Kết thúc nội dung trang -->
     </div>
-    <!-- Kết thúc trang-wrapper -->
+    <!-- Kết thúc page-wrapper -->
 
     <!-- jQuery  -->
     <?php require_once('../partials/scripts.php'); ?>

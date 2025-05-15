@@ -158,17 +158,17 @@ require_once("../partials/head.php");
                                         <td><?php echo $reservation->check_in; ?></td>
                                         <td><?php echo $reservation->check_out; ?></td>
                                         <td><?php echo $reservation->cust_name; ?></td>
-                                        <td><?php echo $days_stayed; ?> Ngày</td>
-                                        <td>Ksh <?php echo $amount; ?></td>
-                                        <td><?php echo date('d M Y', strtotime($reservation->created_at)); ?></td>
+                                        <td><?php echo $days_stayed; ?> ngày</td>
+                                        <td><?php echo number_format($amount, 0, ',', '.'); ?> VNĐ</td>
+                                        <td><?php echo date('d/m/Y', strtotime($reservation->created_at)); ?></td>
                                         <td>
-                                            <a class="badge badge-warning" data-toggle="modal" href="#pay_<?php echo $reservation->id; ?>"> Thanh toán phí đặt phòng </a>
+                                            <a class="badge badge-warning" data-toggle="modal" href="#pay_<?php echo $reservation->id; ?>"> Thanh toán đặt phòng </a>
                                             <!-- Modal Thanh toán -->
                                             <div class="modal fade " id="pay_<?php echo $reservation->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Điền tất cả các giá trị </h4>
+                                                            <h4 class="modal-title">Vui lòng điền đầy đủ thông tin</h4>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -192,7 +192,7 @@ require_once("../partials/head.php");
                                                                     </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="inputEmail4">Số tiền đặt phòng</label>
-                                                                        <input required type="text" value="<?php echo $amount; ?>" readonly name="amt" class="form-control">
+                                                                        <input required type="text" value="<?php echo number_format($amount, 0, ',', '.'); ?>" readonly name="amt" class="form-control">
                                                                     </div>
 
                                                                     <div class="form-group col-md-6">
@@ -203,9 +203,9 @@ require_once("../partials/head.php");
                                                                         <label for="inputEmail4">Phương thức thanh toán</label>
                                                                         <select class='form-control' name="payment_means" id="">
                                                                             <option selected>Tiền mặt</option>
-                                                                            <option>Mpesa</option>
+                                                                            <option>Chuyển khoản</option>
                                                                             <option>Thẻ tín dụng</option>
-                                                                            <option>Tiền Airtel</option>
+                                                                            <option>Ví điện tử</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>

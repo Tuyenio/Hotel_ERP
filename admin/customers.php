@@ -161,11 +161,11 @@ require_once('../partials/head.php');
                                                     <th style="width: 15%">Họ tên</th>
                                                     <th style="width: 10%">Số điện thoại</th>
                                                     <th style="width: 15%">Email</th>
-                                                    <th style="width: 10%">CCCD</th>
+                                                    <th style="width: 10%">CMND/CCCD</th>
                                                     <th style="width: 15%">Địa chỉ</th>
                                                     <th style="width: 8%">Số phòng</th>
-                                                    <th style="width: 8%">Check-in</th>
-                                                    <th style="width: 8%">Check-out</th>
+                                                    <th style="width: 8%">Ngày nhận phòng</th>
+                                                    <th style="width: 8%">Ngày trả phòng</th>
                                                     <th style="width: 8%">Trạng thái</th>
                                                     <th style="width: 8%">Thao tác</th>
                                                 </tr>

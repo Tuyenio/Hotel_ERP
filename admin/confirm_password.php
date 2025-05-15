@@ -77,13 +77,13 @@ require_once('../partials/head.php');
                 while ($row = $res->fetch_object()) {
                 ?>
                     <p class="login-box-msg">
-                        <?php echo $row->username; ?> Bạn chỉ còn một bước nữa để có mật khẩu mới, hãy khôi phục mật khẩu của bạn ngay bây giờ.
+                        <?php echo $row->username; ?>, bạn chỉ còn một bước nữa để có mật khẩu mới, hãy khôi phục mật khẩu của bạn ngay bây giờ.
                         <span class="badge badge-success"><?php echo $row->password; ?></span>
                     </p>
                 <?php } ?>
                 <form method="post">
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="new_password" placeholder="Mật khẩu">
+                        <input type="password" class="form-control" name="new_password" placeholder="Mật khẩu mới">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -91,7 +91,7 @@ require_once('../partials/head.php');
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="confirm_password" placeholder="Xác nhận mật khẩu">
+                        <input type="password" class="form-control" name="confirm_password" placeholder="Xác nhận mật khẩu mới">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -100,7 +100,7 @@ require_once('../partials/head.php');
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" name="change_pass" class="btn btn-primary btn-block">Thay đổi mật khẩu</button>
+                            <button type="submit" name="change_pass" class="btn btn-primary btn-block">Đổi mật khẩu</button>
                         </div>
                     </div>
                 </form>
