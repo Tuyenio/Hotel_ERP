@@ -3,11 +3,11 @@ session_start();
 require_once('../config/config.php');
 require_once('../config/codeGen.php');
 require_once('../config/checklogin.php');
-sudo(); /* Invoke Admin Check Login */
+sudo(); /* Kiểm tra đăng nhập Quản trị viên */
 
 if (isset($_POST['Add_Sale'])) {
 
-    /* Error Handling */
+    /* Xử lý lỗi */
     $error = 0;
     if (isset($_POST['id']) && !empty($_POST['id'])) {
         $id = mysqli_real_escape_string($mysqli, trim($_POST['id']));
@@ -57,9 +57,9 @@ if (isset($_POST['Add_Sale'])) {
         $error = 1;
         $err = "Tháng thanh toán không được để trống";
     }
-    /* Prevent Double Entrie */
+    /* Ngăn chặn nhập trùng */
     if (!$error) {
-        //Prevent Double Entries
+        //Ngăn chặn nhập trùng
         $sql = "SELECT * FROM  payments WHERE code = '$code'  ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
@@ -85,7 +85,7 @@ if (isset($_POST['Add_Sale'])) {
 
 if (isset($_POST['Update_Sale'])) {
 
-    /* Error Handling And Update Sale */
+    /* Xử lý lỗi và cập nhật doanh thu */
     $error = 0;
     if (isset($_POST['id']) && !empty($_POST['id'])) {
         $id = mysqli_real_escape_string($mysqli, trim($_POST['id']));
@@ -135,7 +135,7 @@ if (isset($_POST['Update_Sale'])) {
         $error = 1;
         $err = "Tháng thanh toán không được để trống";
     }
-    /* Prevent Double Entrie */
+    /* Ngăn chặn nhập trùng */
     if (!$error) {
 
         $query = "UPDATE payments SET  code =?, payment_means =?, amt =?, cust_name =?, service_paid =?, month =? WHERE id =?";
@@ -153,7 +153,7 @@ if (isset($_POST['Update_Sale'])) {
 
 
 if (isset($_GET['delete'])) {
-    /* Delete Sale */
+    /* Xóa doanh thu */
     $id = $_GET['delete'];
     $adn = "DELETE FROM payments WHERE id =?";
     $stmt = $mysqli->prepare($adn);
@@ -172,16 +172,16 @@ require_once("../partials/head.php");
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên chính -->
         <?php require_once("../partials/admin_sidebar.php"); ?>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- Nội dung trang -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- Tiêu đề trang -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -206,13 +206,13 @@ require_once("../partials/head.php");
                     <div class="text-right">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-sale">Thêm Doanh Thu Nhà Hàng</button>
                     </div>
-                    <!-- Add Sale Modal -->
+                    <!-- Modal Thêm Doanh Thu -->
                     <div class="modal fade" id="add-sale">
                         <div class="modal-dialog  modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Điền Tất Cả Các Giá Trị</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <h4 class="modal-title">Điền Tất Cả Các Thông Tin</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -220,10 +220,10 @@ require_once("../partials/head.php");
                                     <form method="POST" enctype="multipart/form-data">
                                         <div class="form-row mb-4">
                                             <div style="display:none" class="form-group col-md-6">
-                                                <label for="inputEmail4">Id</label>
+                                                <label for="inputEmail4">Mã</label>
                                                 <input type="text" name="id" value="<?php echo $ID; ?>" class="form-control">
                                                 <input type="text" name="month" value="<?php echo date('M'); ?>" class="form-control">
-                                                <input type="text" name="service_paid" value="Resturant Sales" class="form-control">
+                                                <input type="text" name="service_paid" value="Doanh Thu Nhà Hàng" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-row mb-4">
@@ -243,7 +243,6 @@ require_once("../partials/head.php");
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail4">Tên Khách Hàng</label>
                                                 <input required type="text" name="cust_name" class="form-control">
-
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail4">Số Tiền Bán</label>
@@ -262,25 +261,25 @@ require_once("../partials/head.php");
                             </div>
                         </div>
                     </div>
-                    <!-- ./End Modal -->
+                    <!-- ./Kết thúc Modal -->
                     <hr>
                     <div class="col-12">
                         <table id="dt-1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Mã</th>
-                                    <th>Số tiền</th>
-                                    <th>Tên khách hàng</th>
-                                    <th>Phương thức thanh toán</th>
-                                    <th>Ngày</th>
-                                    <th>Hành động</th>
+                                    <th>Mã Doanh Thu</th>
+                                    <th>Số Tiền</th>
+                                    <th>Tên Khách Hàng</th>
+                                    <th>Phương Thức Thanh Toán</th>
+                                    <th>Ngày Tạo</th>
+                                    <th>Hành Động</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $ret = "SELECT * FROM `payments` WHERE service_paid ='Resturant Sales' ORDER BY `payments`.`created_at` ASC ";
                                 $stmt = $mysqli->prepare($ret);
-                                $stmt->execute(); //ok
+                                $stmt->execute();
                                 $res = $stmt->get_result();
                                 while ($payments = $res->fetch_object()) {
                                 ?>
@@ -289,10 +288,10 @@ require_once("../partials/head.php");
                                         <td><?php echo $payments->amt; ?></td>
                                         <td><?php echo $payments->cust_name; ?></td>
                                         <td><?php echo $payments->payment_means; ?></td>
-                                        <td><?php echo date('d M Y g:ia', strtotime($payments->created_at)); ?></td>
+                                        <td><?php echo date('d/m/Y H:i', strtotime($payments->created_at)); ?></td>
                                         <td>
-                                            <a class="badge badge-success" data-toggle="modal" href="#receipt-<?php echo $payments->id; ?>">Hóa đơn</a>
-                                            <!-- Receipt Modal -->
+                                            <a class="badge badge-success" data-toggle="modal" href="#receipt-<?php echo $payments->id; ?>">Hóa Đơn</a>
+                                            <!-- Modal Hóa Đơn -->
                                             <div class="modal fade" id="receipt-<?php echo $payments->id; ?>">
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
@@ -301,9 +300,9 @@ require_once("../partials/head.php");
                                                                 <div class="row">
                                                                     <div class="col-12 ">
                                                                         <h4 class="text-center">
-                                                                            <img height="100" width="200" src="../public/uploads/sys_logo/logo.png" class="img-thumbnail img-fluid" alt="System Logo">
+                                                                            <img height="100" width="200" src="../public/uploads/sys_logo/logo.png" class="img-thumbnail img-fluid" alt="Logo hệ thống">
                                                                             <br>
-                                                                            <small class="float-right">Ngày: <?php echo date('d M Y'); ?></small>
+                                                                            <small class="float-right">Ngày: <?php echo date('d/m/Y'); ?></small>
                                                                         </h4>
                                                                         <h4>
                                                                             NT Hotels Inc
@@ -316,11 +315,11 @@ require_once("../partials/head.php");
                                                                         <table class="table">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th>Tên khách hàng</th>
-                                                                                    <th>Số tiền đã thanh toán</th>
-                                                                                    <th>Dịch vụ đã thanh toán</th>
-                                                                                    <th>Phương thức thanh toán</th>
-                                                                                    <th>Mã thanh toán</th>
+                                                                                    <th>Tên Khách Hàng</th>
+                                                                                    <th>Số Tiền Đã Thanh Toán</th>
+                                                                                    <th>Dịch Vụ Đã Thanh Toán</th>
+                                                                                    <th>Phương Thức Thanh Toán</th>
+                                                                                    <th>Mã Doanh Thu</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
@@ -340,21 +339,20 @@ require_once("../partials/head.php");
                                                         </div>
                                                         <div class="modal-footer justify-content-between">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-
                                                             <button id="print" onclick="printContent('Print_Receipt');" type="button" class="btn btn-primary">In</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $payments->id; ?>">Cập nhật</a>
-                                            <!-- Update Modal -->
+                                            <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $payments->id; ?>">Cập Nhật</a>
+                                            <!-- Modal Cập Nhật -->
                                             <div class="modal fade" id="update-<?php echo $payments->id; ?>">
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Cập nhật doanh thu nhà hàng: <?php echo $payments->cust_name; ?></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <h4 class="modal-title">Cập Nhật Doanh Thu Nhà Hàng: <?php echo $payments->cust_name; ?></h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
@@ -362,11 +360,10 @@ require_once("../partials/head.php");
                                                             <form method="POST" enctype="multipart/form-data">
                                                                 <div class="form-row mb-4">
                                                                     <div style="display:none" class="form-group col-md-6">
-                                                                        <label for="inputEmail4">Id</label>
+                                                                        <label for="inputEmail4">Mã</label>
                                                                         <input type="text" name="id" value="<?php echo $payments->id; ?>" class="form-control">
                                                                         <input type="text" name="month" value="<?php echo date('M'); ?>" class="form-control">
-                                                                        <input type="text" name="service_paid" value="Resturant Sales" class="form-control">
-
+                                                                        <input type="text" name="service_paid" value="Doanh Thu Nhà Hàng" class="form-control">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-row mb-4">
@@ -388,7 +385,6 @@ require_once("../partials/head.php");
                                                                     <div class="form-group col-md-6">
                                                                         <label for="inputEmail4">Tên Khách Hàng</label>
                                                                         <input required type="text" value="<?php echo $payments->cust_name; ?>" name="cust_name" class="form-control">
-
                                                                     </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="inputEmail4">Số Tiền Bán</label>
@@ -409,18 +405,18 @@ require_once("../partials/head.php");
                                             </div>
 
                                             <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $payments->id; ?>">Xóa</a>
-                                            <!-- Delete Modal -->
+                                            <!-- Modal Xóa -->
                                             <div class="modal fade" id="delete-<?php echo $payments->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">XÁC NHẬN</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body text-center text-danger">
-                                                            <h4>Xóa <?php echo $payments->code; ?> ?</h4>
+                                                            <h4>Bạn có chắc chắn muốn xóa <?php echo $payments->code; ?> không?</h4>
                                                             <br>
                                                             <button type="button" class="text-center btn btn-success" data-dismiss="modal">Không</button>
                                                             <a href="resturant_sales.php?delete=<?php echo $payments->id; ?>" class="text-center btn btn-danger">Xóa</a>

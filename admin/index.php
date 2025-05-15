@@ -47,10 +47,10 @@ require_once('../partials/head.php');
         } ?>
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Đăng nhập</p>
+                <p class="login-box-msg">Đăng nhập hệ thống</p>
                 <form method="post">
                     <div class="input-group mb-3">
-                        <input type="email" required class="form-control" name="email" placeholder="Email">
+                        <input type="email" required class="form-control" name="email" placeholder="Nhập email">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -59,7 +59,7 @@ require_once('../partials/head.php');
                     </div>
 
                     <div class="input-group mb-3">
-                        <input type="password" required class="form-control" name="password" placeholder="Mật khẩu">
+                        <input type="password" required class="form-control" name="password" placeholder="Nhập mật khẩu">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -76,17 +76,17 @@ require_once('../partials/head.php');
                             </div> -->
                         </div>
                         <div class="col-4">
-                            <button type="submit" name="login" class="btn btn-primary btn-block">Admin</button>
+                            <button type="submit" name="login" class="btn btn-primary btn-block">Đăng nhập</button>
                         </div>
                     </div>
                 </form>
 
                 <p class="mb-1">
-                    <a href="../">Trang chủ</a>
+                    <a href="../">Về trang chủ</a>
                 </p>
                 
                 <p class="mb-1">
-                    <a href="reset_password.php">Bạn quên mật khẩu?</a>
+                    <a href="reset_password.php">Quên mật khẩu?</a>
                 </p>
 
             </div>

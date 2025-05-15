@@ -3,23 +3,23 @@ session_start();
 require_once('../config/config.php');
 require_once('../config/codeGen.php');
 require_once('../config/checklogin.php');
-sudo(); /* Invoke Admin Check Login */
+sudo(); /* Kiểm tra đăng nhập Quản trị viên */
 
 require_once("../partials/head.php");
 ?>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên chính -->
         <?php require_once("../partials/admin_sidebar.php"); ?>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- Nội dung trang -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- Tiêu đề nội dung -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -67,12 +67,12 @@ require_once("../partials/head.php");
                                     <tr>
                                         <td><?php echo $reservation->room_number; ?></td>
                                         <td><?php echo $reservation->room_type; ?></td>
-                                        <td><?php echo date('d-M-Y', strtotime($reservation->check_in)); ?></td>
-                                        <td><?php echo date('d-M-Y', strtotime($reservation->check_out)); ?></td>
+                                        <td><?php echo date('d-m-Y', strtotime($reservation->check_in)); ?></td>
+                                        <td><?php echo date('d-m-Y', strtotime($reservation->check_out)); ?></td>
                                         <td><?php echo $reservation->cust_name; ?></td>
                                         <td><?php echo $reservation->cust_id; ?></td>
                                         <td><?php echo $reservation->status; ?></td>
-                                        <td><?php echo date('d-M-Y g:ia', strtotime($reservation->created_at)); ?></td>
+                                        <td><?php echo date('d-m-Y H:i', strtotime($reservation->created_at)); ?></td>
                                     </tr>
                                 <?php
                                 } ?>

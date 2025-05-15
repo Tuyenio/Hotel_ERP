@@ -3,35 +3,35 @@ session_start();
 require_once('../config/config.php');
 require_once('../config/codeGen.php');
 require_once('../config/checklogin.php');
-sudo(); /* Invoke Admin Check Login */
+sudo(); /* Kiểm tra đăng nhập Quản trị viên */
 
 require_once("../partials/head.php");
 ?>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên chính -->
         <?php require_once("../partials/admin_sidebar.php"); ?>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- Nội dung trang -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- Tiêu đề nội dung (Header) -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Rooms Reports </h1>
+                            <h1>Báo Cáo Phòng</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="">Reports</a></li>
-                                <li class="breadcrumb-item active">Rooms</li>
+                                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="dashboard.php">Bảng điều khiển</a></li>
+                                <li class="breadcrumb-item"><a href="">Báo cáo</a></li>
+                                <li class="breadcrumb-item active">Phòng</li>
                             </ol>
                         </div>
                     </div>
@@ -65,9 +65,9 @@ require_once("../partials/head.php");
                                         <td>
                                             <?php
                                             if ($rooms->status == 'Occupied') {
-                                                echo "<span class='badge bg-danger'>$rooms->status</span>";
+                                                echo "<span class='badge bg-danger'>Đã có khách</span>";
                                             } else {
-                                                echo "<span class='badge bg-warning'>$rooms->status</span>";
+                                                echo "<span class='badge bg-warning'>Trống</span>";
                                             }
                                             ?>
                                         </td>

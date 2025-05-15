@@ -3,10 +3,10 @@ session_start();
 require_once('../config/config.php');
 require_once('../config/codeGen.php');
 require_once('../config/checklogin.php');
-sudo(); /* Invoke Admin Check Login */
+sudo(); /* Kiểm tra đăng nhập Quản trị viên */
 
 if (isset($_POST['Add_Roomservice'])) {
-    /* Error Handling  */
+    /* Xử lý lỗi  */
     $error = 0;
     if (isset($_POST['id']) && !empty($_POST['id'])) {
         $id = mysqli_real_escape_string($mysqli, trim($_POST['id']));
@@ -83,16 +83,16 @@ require_once("../partials/head.php");
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên trái -->
         <?php require_once("../partials/admin_sidebar.php"); ?>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- Nội dung chính -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- Tiêu đề nội dung -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -101,9 +101,9 @@ require_once("../partials/head.php");
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Trang Chủ</a></li>
-                                <li class="breadcrumb-item"><a href="dashboard.php">Bảng Điều Khiển</a></li>
-                                <li class="breadcrumb-item active">Dịch Vụ Phòng</li>
+                                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="dashboard.php">Bảng điều khiển</a></li>
+                                <li class="breadcrumb-item active">Dịch vụ phòng</li>
                             </ol>
                         </div>
                     </div>
@@ -115,15 +115,15 @@ require_once("../partials/head.php");
                     <form class="form-inline">
                     </form>
                     <div class="text-right">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_modal">Thêm Phân Công Dịch Vụ Phòng</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_modal">Thêm phân công dịch vụ phòng</button>
                     </div>
-                    <!-- Add  Modal -->
+                    <!-- Modal Thêm -->
                     <div class="modal fade" id="add_modal">
                         <div class="modal-dialog  modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Điền Tất Cả Các Giá Trị</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <h4 class="modal-title">Điền tất cả các giá trị</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -138,13 +138,13 @@ require_once("../partials/head.php");
 
                                         <div class="form-row mb-4">
                                             <div class="form-group col-md-6">
-                                                <label for="inputEmail4">Số Nhân Viên</label>
+                                                <label for="inputEmail4">Số nhân viên</label>
                                                 <select name="staff_number" class="form-control" id="StaffNumber" onchange="getStaffDetails(this.value);">
-                                                    <option>Chọn Số Nhân Viên</option>
+                                                    <option>Chọn số nhân viên</option>
                                                     <?php
                                                     $ret = "SELECT * FROM `staffs`  ORDER BY `staffs`.`name` ASC ";
                                                     $stmt = $mysqli->prepare($ret);
-                                                    $stmt->execute(); //ok
+                                                    $stmt->execute();
                                                     $res = $stmt->get_result();
                                                     while ($staff = $res->fetch_object()) {
                                                     ?>
@@ -154,13 +154,13 @@ require_once("../partials/head.php");
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="inputEmail4">Số Phòng</label>
+                                                <label for="inputEmail4">Số phòng</label>
                                                 <select name="room_number" class="form-control" id="RNumber" onchange="getRoomDetails(this.value);">
-                                                    <option>Chọn Số Phòng</option>
+                                                    <option>Chọn số phòng</option>
                                                     <?php
                                                     $ret = "SELECT * FROM `rooms`   ";
                                                     $stmt = $mysqli->prepare($ret);
-                                                    $stmt->execute(); //ok
+                                                    $stmt->execute();
                                                     $res = $stmt->get_result();
                                                     while ($rooms = $res->fetch_object()) {
                                                     ?>
@@ -170,7 +170,7 @@ require_once("../partials/head.php");
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-12">
-                                                <label for="inputEmail4">Tên Nhân Viên</label>
+                                                <label for="inputEmail4">Tên nhân viên</label>
                                                 <input required type="text" id="StaffName" name="staff_name" class="form-control">
                                                 <input required type="hidden" id="StaffID" name="staff_id" class="form-control">
                                             </div>
@@ -189,18 +189,18 @@ require_once("../partials/head.php");
                             </div>
                         </div>
                     </div>
-                    <!-- End  Modal -->
+                    <!-- Kết thúc Modal -->
 
                     <hr>
                     <div class="col-12">
                         <table id="dt-1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Số Nhân Viên</th>
-                                    <th>Tên</th>
-                                    <th>Phòng Được Phân Công</th>
-                                    <th>Ngày Phân Công</th>
-                                    <th>Hành Động</th>
+                                    <th>Số nhân viên</th>
+                                    <th>Tên nhân viên</th>
+                                    <th>Phòng được phân công</th>
+                                    <th>Ngày phân công</th>
+                                    <th>Hành động</th>
                                 </tr>
                             </thead>
 
@@ -208,7 +208,7 @@ require_once("../partials/head.php");
                                 <?php
                                 $ret = "SELECT * FROM `room_service`  ";
                                 $stmt = $mysqli->prepare($ret);
-                                $stmt->execute(); //ok
+                                $stmt->execute();
                                 $res = $stmt->get_result();
                                 while ($service = $res->fetch_object()) {
                                 ?>
@@ -216,22 +216,22 @@ require_once("../partials/head.php");
                                         <td><?php echo $service->staff_number; ?></td>
                                         <td><?php echo $service->staff_name; ?></td>
                                         <td><?php echo $service->room_number; ?></td>
-                                        <td><?php echo date('d M Y g:ia', strtotime($service->created_at)); ?></td>
+                                        <td><?php echo date('d/m/Y H:i', strtotime($service->created_at)); ?></td>
                                         <td>
 
                                             <a class="badge badge-danger" data-toggle="modal" href="#delete_<?php echo $service->id; ?>">Xóa</a>
-                                            <!-- Delete Modal -->
+                                            <!-- Modal Xóa -->
                                             <div class="modal fade" id="delete_<?php echo $service->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">XÁC NHẬN</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body text-center text-danger">
-                                                            <h4>Xóa Bản Ghi Phân Công Dịch Vụ Phòng Của <?php echo $service->staff_name; ?>?</h4>
+                                                            <h4>Bạn có chắc chắn muốn xóa phân công dịch vụ phòng của <?php echo $service->staff_name; ?>?</h4>
                                                             <br>
                                                             <button type="button" class="text-center btn btn-success" data-dismiss="modal">Không</button>
                                                             <a href="room_service.php?Delete=<?php echo $service->id; ?>" class="text-center btn btn-danger">Xóa</a>

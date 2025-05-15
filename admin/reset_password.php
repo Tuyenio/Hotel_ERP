@@ -3,39 +3,39 @@ session_start();
 include('../config/config.php');
 
 if (isset($_POST['reset_password'])) {
-    //prevent posting blank value for first name
+    //ngăn gửi giá trị trống cho email
     $error = 0;
     if (isset($_POST['email']) && !empty($_POST['email'])) {
         $email = mysqli_real_escape_string($mysqli, trim($_POST['email']));
     } else {
         $error = 1;
-        $err = "Enter Your Email";
+        $err = "Vui lòng nhập Email";
     }
     if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $err = 'Invalid Email';
+        $err = 'Email không hợp lệ';
     }
     $checkEmail = mysqli_query($mysqli, "SELECT `email` FROM `admin` WHERE `email` = '" . $_POST['email'] . "'") or exit(mysqli_error($mysqli));
     if (mysqli_num_rows($checkEmail) > 0) {
 
         $n = date('y');
         $new_password = bin2hex(random_bytes($n));
-        //Insert Captured information to a database table
+        //Cập nhật mật khẩu mới vào cơ sở dữ liệu
         $query = "UPDATE admin SET  password=? WHERE email =?";
         $stmt = $mysqli->prepare($query);
-        //bind paramaters
+        //gán tham số
         $rc = $stmt->bind_param('ss', $new_password, $email);
         $stmt->execute();
         if ($stmt) {
-            /* Alert */
+            /* Thông báo */
             $_SESSION['email'] = $email;
 
-            $success = "Confim Your Password" && header("refresh:1; url=confirm_password.php");
+            $success = "Vui lòng xác nhận mật khẩu" && header("refresh:1; url=confirm_password.php");
         } else {
-            $err = "Password reset failed";
+            $err = "Đặt lại mật khẩu thất bại";
         }
-    } else  // user does not exist
+    } else  // email không tồn tại
     {
-        $err = "Email Does Not Exist";
+        $err = "Email không tồn tại";
     }
 }
 
@@ -45,13 +45,13 @@ require_once('../partials/head.php');
 <body class="hold-transition login-page">
     <div class="login-box">
         <?php
-        /* Persist System Settings */
+        /* Lấy thông tin hệ thống */
         $ret = "SELECT * FROM `system_settings` ";
         $stmt = $mysqli->prepare($ret);
         $stmt->execute(); //ok
         $res = $stmt->get_result();
         while ($sys = $res->fetch_object()) {
-            /* Check For Missing Logo And Load Default */
+            /* Kiểm tra logo, nếu không có thì dùng mặc định */
             if ($sys_logo = '') {
                 $logo_dir = '../public/uploads/sys_logo/logo.png';
             } else {
@@ -59,7 +59,7 @@ require_once('../partials/head.php');
             }
         ?>
             <div class="login-logo">
-                <!-- Adjust This Dimensions To Fit Your Logo -->
+                <!-- Điều chỉnh kích thước logo tại đây -->
                 <img class="img-fluid" height="100" width="150" src="<?php echo $logo_dir; ?>" alt="">
             </div>
         <?php
@@ -69,7 +69,7 @@ require_once('../partials/head.php');
                 <p class="login-box-msg">Đặt lại mật khẩu</p>
                 <form method="post">
                     <div class="input-group mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Email">
+                        <input type="email" name="email" class="form-control" placeholder="Nhập email của bạn">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -84,7 +84,7 @@ require_once('../partials/head.php');
                 </form>
 
                 <p class="mb-1">
-                    <a href="index.php">Nhớ mật khẩu</a>
+                    <a href="index.php">Tôi nhớ mật khẩu</a>
                 </p>
             </div>
         </div>

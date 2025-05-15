@@ -50,11 +50,11 @@ if (isset($_POST['systemSettings'])) {
                     $sys_logo = $new_filename;
                 } else {
                     $error = 1;
-                    $err = "Không thể upload logo. Vui lòng thử lại.";
+                    $err = "Không thể tải lên logo. Vui lòng thử lại.";
                 }
             } else {
                 $error = 1;
-                $err = "Định dạng file không hợp lệ. Chỉ chấp nhận JPG, JPEG, PNG và GIF.";
+                $err = "Định dạng tệp không hợp lệ. Chỉ chấp nhận JPG, JPEG, PNG và GIF.";
             }
         } else {
             // Nếu không có file mới, giữ nguyên logo cũ
@@ -154,21 +154,21 @@ if (isset($_POST['ContactsCustomizations'])) {
         $social_fb   = mysqli_real_escape_string($mysqli, trim($_POST['social_fb']));
     } else {
         $error = 1;
-        $err = "Hồ sơ Facebook không được để trống";
+        $err = "Tên người dùng Facebook không được để trống";
     }
 
     if (isset($_POST['social_ig']) && !empty($_POST['social_ig'])) {
         $social_ig   = mysqli_real_escape_string($mysqli, trim($_POST['social_ig']));
     } else {
         $error = 1;
-        $err = "Nội dung Instagram không được để trống";
+        $err = "Tên người dùng Instagram không được để trống";
     }
 
     if (isset($_POST['social_twitter']) && !empty($_POST['social_twitter'])) {
         $social_twitter   = mysqli_real_escape_string($mysqli, trim($_POST['social_twitter']));
     } else {
         $error = 1;
-        $err = "Nội dung Twitter không được để trống";
+        $err = "Tên người dùng Twitter không được để trống";
     }
 
     if (!$error) {
@@ -198,7 +198,7 @@ if (isset($_POST['AboutCustomization'])) {
         $contact_about  = mysqli_real_escape_string($mysqli, trim($_POST['contact_about']));
     } else {
         $error = 1;
-        $err = "Nội dung về không được để trống";
+        $err = "Nội dung giới thiệu không được để trống";
     }
 
     if (!$error) {
@@ -216,7 +216,6 @@ if (isset($_POST['AboutCustomization'])) {
 
 require_once('../partials/head.php');
 ?>
-
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
         <!-- Thanh điều hướng -->
@@ -264,7 +263,7 @@ require_once('../partials/head.php');
                                             </li>
 
                                             <li class="nav-item">
-                                                <a class="nav-link " id="custom-content-below-home-tab" data-toggle="pill" href="#about" role="tab" aria-controls="custom-content-below-home-page" aria-selected="true">Về</a>
+                                                <a class="nav-link " id="custom-content-below-home-tab" data-toggle="pill" href="#about" role="tab" aria-controls="custom-content-below-home-page" aria-selected="true">Giới thiệu</a>
                                             </li>
                                         </ul>
 
@@ -294,7 +293,7 @@ require_once('../partials/head.php');
                                                                     <div class="input-group">
                                                                         <div class="custom-file">
                                                                             <input required name="sys_logo" type="file" class="custom-file-input">
-                                                                            <label class="custom-file-label" for="exampleInputFile">Chọn file</label>
+                                                                            <label class="custom-file-label" for="exampleInputFile">Chọn tệp</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -309,7 +308,7 @@ require_once('../partials/head.php');
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
-                                                            <button type="submit" name="systemSettings" class="btn btn-primary">Gửi</button>
+                                                            <button type="submit" name="systemSettings" class="btn btn-primary">Lưu thay đổi</button>
                                                         </div>
                                                     </form>
                                                 <?php
@@ -330,7 +329,7 @@ require_once('../partials/head.php');
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="form-group col-md-12">
-                                                                    <label for="">Khẩu hiệu chào mừng</label>
+                                                                    <label for="">Tiêu đề chào mừng</label>
                                                                     <input type="text" required name="welcome_heading" value="<?php echo $sys->welcome_heading; ?>" class="form-control">
                                                                     <!-- Sys Id -->
                                                                     <input type="hidden" required name="sys_id" value="<?php echo $sys->sys_id; ?>" class="form-control">
@@ -342,7 +341,7 @@ require_once('../partials/head.php');
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
-                                                            <button type="submit" name="HomePageCustomizations" class="btn btn-primary">Gửi</button>
+                                                            <button type="submit" name="HomePageCustomizations" class="btn btn-primary">Lưu thay đổi</button>
                                                         </div>
                                                     </form>
                                                 <?php
@@ -380,11 +379,11 @@ require_once('../partials/head.php');
                                                                     <input type="text" required name="social_fb" value="<?php echo $sys->social_fb; ?>" class="form-control">
                                                                 </div>
                                                                 <div class="form-group col-md-4">
-                                                                    <label for="">Tên người dùng Twitter</label>
+                                                                    <label for="">Tên người dùng Instagram</label>
                                                                     <input type="text" required name="social_ig" value="<?php echo $sys->social_ig; ?>" class="form-control">
                                                                 </div>
                                                                 <div class="form-group col-md-4">
-                                                                    <label for="">Tên người dùng Instagram</label>
+                                                                    <label for="">Tên người dùng Twitter</label>
                                                                     <input type="text" required name="social_twitter" value="<?php echo $sys->social_twitter; ?>" class="form-control">
                                                                 </div>
 
@@ -395,7 +394,7 @@ require_once('../partials/head.php');
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
-                                                            <button type="submit" name="ContactsCustomizations" class="btn btn-primary">Gửi</button>
+                                                            <button type="submit" name="ContactsCustomizations" class="btn btn-primary">Lưu thay đổi</button>
                                                         </div>
                                                     </form>
                                                 <?php
@@ -421,13 +420,13 @@ require_once('../partials/head.php');
                                                                 </div>
 
                                                                 <div class="form-group col-md-12">
-                                                                    <label for="">Về</label>
-                                                                    <textarea type="text" rows="10" required name="contact_about" class="form-control"><?php echo $sys->contacts_about;?></textarea>
+                                                                    <label for="">Giới thiệu</label>
+                                                                    <textarea type="text" rows="10" required name="contact_about" class="form-control"><?php echo $sys->contact_about;?></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
-                                                            <button type="submit" name="AboutCustomization" class="btn btn-primary">Gửi</button>
+                                                            <button type="submit" name="AboutCustomization" class="btn btn-primary">Lưu thay đổi</button>
                                                         </div>
                                                     </form>
                                                 <?php

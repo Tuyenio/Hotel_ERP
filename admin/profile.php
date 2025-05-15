@@ -6,7 +6,7 @@ sudo();/* Invoke Sudo */
 
 if (isset($_POST['profile_update'])) {
 
-    /* Update Profile */
+    /* Cập nhật hồ sơ */
     $error = 0;
     if (isset($_POST['username']) && !empty($_POST['username'])) {
         $username = mysqli_real_escape_string($mysqli, trim((($_POST['username']))));
@@ -36,7 +36,7 @@ if (isset($_POST['profile_update'])) {
 
 if (isset($_POST['change_password'])) {
 
-    //Change Password
+    //Đổi mật khẩu
     $error = 0;
     if (isset($_POST['old_password']) && !empty($_POST['old_password'])) {
         $old_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['old_password']))));
@@ -86,11 +86,11 @@ require_once('../partials/head.php');
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên chính -->
         <?php
         require_once("../partials/admin_sidebar.php");
         $id = $_SESSION['id'];
@@ -105,7 +105,7 @@ require_once('../partials/head.php');
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1><?php echo $admin->username; ?> Hồ sơ</h1>
+                                <h1>Hồ sơ của <?php echo $admin->username; ?></h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
@@ -125,7 +125,7 @@ require_once('../partials/head.php');
                                 <div class="card">
                                     <div class="card-header p-2">
                                         <ul class="nav nav-pills">
-                                            <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Cài đặt</a></li>
+                                            <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Cài đặt hồ sơ</a></li>
                                             <li class="nav-item"><a class="nav-link " href="#changePassword" data-toggle="tab">Đổi mật khẩu</a></li>
                                         </ul>
                                     </div><!-- /.card-header -->

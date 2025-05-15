@@ -4,7 +4,6 @@ require_once('../config/config.php');
 require_once('../config/codeGen.php');
 require_once('../config/checklogin.php');
 sudo(); /* Gọi kiểm tra đăng nhập quản trị viên */
-
 if (isset($_POST['add_asset'])) {
     /* Xử lý lỗi */
     $error = 0;
@@ -142,7 +141,7 @@ require_once("../partials/head.php");
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Container bên trái chính -->
+        <!-- Thanh bên trái chính -->
         <?php require_once("../partials/admin_sidebar.php"); ?>
 
         <!-- Content Wrapper. Chứa nội dung trang -->
@@ -178,7 +177,7 @@ require_once("../partials/head.php");
                         <div class="modal-dialog  modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Điền tất cả các giá trị </h4>
+                                    <h4 class="modal-title">Điền tất cả các giá trị</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -244,9 +243,9 @@ require_once("../partials/head.php");
                                         <td><?php echo $asset->code; ?></td>
                                         <td><?php echo $asset->name; ?></td>
                                         <td><?php echo $asset->status; ?></td>
-                                        <td><?php echo date('d M Y', strtotime($asset->created_at)); ?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($asset->created_at)); ?></td>
                                         <td>
-                                            <a class="badge badge-success" data-toggle="modal" href="#view_<?php echo $asset->id; ?>">Xem </a>
+                                            <a class="badge badge-success" data-toggle="modal" href="#view_<?php echo $asset->id; ?>">Xem</a>
                                             <!-- Xem tài sản -->
                                             <div class="modal fade" id="view_<?php echo $asset->id; ?>">
                                                 <div class="modal-dialog modal-xl">
@@ -258,7 +257,7 @@ require_once("../partials/head.php");
                                                                         <h4 class="text-center">
                                                                             <img height="100" width="200" src="../public/uploads/sys_logo/logo.png" class="img-thumbnail img-fluid" alt="Logo hệ thống">
                                                                             <br>
-                                                                            <small class="float-right">Tài sản được ghi nhận vào: <?php echo date('d M Y g:ia', strtotime($asset->created_at)); ?></small>
+                                                                            <small class="float-right">Tài sản được ghi nhận vào: <?php echo date('d/m/Y H:i', strtotime($asset->created_at)); ?></small>
                                                                         </h4>
                                                                         <h4>
                                                                             Hồ sơ tài sản của NT Hotels Inc
@@ -289,7 +288,7 @@ require_once("../partials/head.php");
                                                                         <table class="table">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th class="text-center">Mô tả tài sản.</th>
+                                                                                    <th class="text-center">Mô tả tài sản</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
@@ -316,7 +315,7 @@ require_once("../partials/head.php");
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Cập nhật hồ sơ <?php echo $asset->code; ?> </h4>
+                                                            <h4 class="modal-title">Cập nhật hồ sơ <?php echo $asset->code; ?></h4>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -374,10 +373,10 @@ require_once("../partials/head.php");
                                                             </button>
                                                         </div>
                                                         <div class="modal-body text-center text-danger">
-                                                            <h4>Xóa hồ sơ <?php echo $asset->name; ?>?</h4>
+                                                            <h4>Bạn có chắc chắn muốn xóa hồ sơ <?php echo $asset->name; ?>?</h4>
                                                             <br>
                                                             <button type="button" class="text-center btn btn-success" data-dismiss="modal">Không</button>
-                                                            <a href="inventory_assets.php?Delete=<?php echo $asset->id; ?>" class="text-center btn btn-danger"> Xóa </a>
+                                                            <a href="inventory_assets.php?Delete=<?php echo $asset->id; ?>" class="text-center btn btn-danger">Xóa</a>
                                                         </div>
                                                     </div>
                                                 </div>

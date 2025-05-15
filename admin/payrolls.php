@@ -6,7 +6,7 @@ require_once('../config/checklogin.php');
 sudo(); /* Invoke Admin Check Login */
 
 if (isset($_POST['Add_Payroll'])) {
-    /* Error Handling  */
+    /* Xử lý lỗi */
     $error = 0;
     if (isset($_POST['id']) && !empty($_POST['id'])) {
         $id = mysqli_real_escape_string($mysqli, trim($_POST['id']));
@@ -59,7 +59,7 @@ if (isset($_POST['Add_Payroll'])) {
 
 
     if (!$error) {
-        //Prevent Double Entries
+        //Ngăn chặn nhập trùng
         $sql = "SELECT * FROM  payrolls WHERE code = '$code'  ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
@@ -85,7 +85,7 @@ if (isset($_POST['Add_Payroll'])) {
 }
 
 if (isset($_POST['Update_Payroll'])) {
-    /* Error Handling */
+    /* Xử lý lỗi */
     $error = 0;
     if (isset($_POST['id']) && !empty($_POST['id'])) {
         $id = mysqli_real_escape_string($mysqli, trim($_POST['id']));
@@ -124,7 +124,7 @@ if (isset($_POST['Update_Payroll'])) {
         if ($stmt) {
             $success = "Đã cập nhật" && header("refresh:1; url=payrolls.php");
         } else {
-            //inject alert that task failed
+            //Thông báo thất bại
             $info = "Vui lòng thử lại sau";
         }
     }
@@ -149,16 +149,16 @@ require_once("../partials/head.php");
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên chính -->
         <?php require_once("../partials/admin_sidebar.php"); ?>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- Nội dung trang -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- Tiêu đề trang -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -184,13 +184,13 @@ require_once("../partials/head.php");
                     <div class="text-right">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_modal">Thêm lương</button>
                     </div>
-                    <!-- Add  Modal -->
+                    <!-- Modal Thêm -->
                     <div class="modal fade" id="add_modal">
                         <div class="modal-dialog  modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Điền đầy đủ thông tin</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -198,18 +198,18 @@ require_once("../partials/head.php");
                                     <form method="POST" enctype="multipart/form-data">
                                         <div class="form-row mb-4">
                                             <div style="display:none" class="form-group col-md-6">
-                                                <label for="inputEmail4">Payroll Id</label>
+                                                <label for="inputEmail4">Mã bảng lương</label>
                                                 <input type="text" name="id" value="<?php echo $ID; ?>" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-row mb-4">
                                             <div class="form-group col-md-4">
-                                                <label for="inputEmail4">Payroll Code</label>
+                                                <label for="inputEmail4">Mã lương</label>
                                                 <input type="text" name="code" value="<?php echo $a; ?>-<?php echo $b; ?>" class="form-control">
                                             </div>
-                                            <!-- Ajax Staff Number To Give Me Staff ID AND Name -->
+                                            <!-- Ajax lấy thông tin nhân viên -->
                                             <div class="form-group col-md-4">
-                                                <label for="inputEmail4">Staff Number</label>
+                                                <label for="inputEmail4">Mã nhân viên</label>
                                                 <select class='form-control' onchange="getStaffDetails(this.value);" id="StaffNumber">
                                                     <option selected>Chọn mã nhân viên</option>
                                                     <?php
@@ -225,7 +225,7 @@ require_once("../partials/head.php");
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="inputEmail4">Staff Name</label>
+                                                <label for="inputEmail4">Tên nhân viên</label>
                                                 <input type="text" name="staff_name" id="StaffName" class="form-control">
                                                 <input type="hidden" name="staff_id" id="StaffID" class="form-control">
                                             </div>
@@ -251,7 +251,7 @@ require_once("../partials/head.php");
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="inputEmail4">Salary</label>
+                                                <label for="inputEmail4">Lương</label>
                                                 <input required type="text" name="salary" class="form-control">
                                             </div>
                                         </div>
@@ -267,14 +267,14 @@ require_once("../partials/head.php");
                             </div>
                         </div>
                     </div>
-                    <!-- End  Modal -->
+                    <!-- Kết thúc Modal -->
 
                     <hr>
                     <div class="col-12">
                         <table id="dt-1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Mã</th>
+                                    <th>Mã lương</th>
                                     <th>Tháng</th>
                                     <th>Số tiền</th>
                                     <th>Tên nhân viên</th>
@@ -296,12 +296,12 @@ require_once("../partials/head.php");
                                             <?php echo $payrolls->code; ?>
                                         </td>
                                         <td><?php echo $payrolls->month; ?></td>
-                                        <td>Ksh <?php echo $payrolls->salary; ?></td>
+                                        <td><?php echo number_format($payrolls->salary, 0, ',', '.'); ?> VNĐ</td>
                                         <td><?php echo $payrolls->staff_name; ?></td>
-                                        <td><?php echo date('d M Y g:i', strtotime($payrolls->created_at)); ?></td>
+                                        <td><?php echo date('d/m/Y H:i', strtotime($payrolls->created_at)); ?></td>
                                         <td>
                                             <a class="badge badge-success" data-toggle="modal" href="#view_<?php echo $payrolls->id; ?>">Xem</a>
-                                            <!-- View Modal -->
+                                            <!-- Modal Xem -->
                                             <div class="modal fade" id="view_<?php echo $payrolls->id; ?>">
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
@@ -310,9 +310,9 @@ require_once("../partials/head.php");
                                                                 <div class="row">
                                                                     <div class="col-12 ">
                                                                         <h4 class="text-center">
-                                                                            <img height="100" width="200" src="../public/uploads/sys_logo/logo.png" class="img-thumbnail img-fluid" alt="System Logo">
+                                                                            <img height="100" width="200" src="../public/uploads/sys_logo/logo.png" class="img-thumbnail img-fluid" alt="Logo hệ thống">
                                                                             <br>
-                                                                            <small class="float-right">Tạo ngày: <?php echo date('d M Y', strtotime($payrolls->created_at)); ?></small>
+                                                                            <small class="float-right">Ngày tạo: <?php echo date('d/m/Y', strtotime($payrolls->created_at)); ?></small>
                                                                         </h4>
                                                                         <h4>
                                                                             Bảng lương nhân viên NT Hotels
@@ -335,7 +335,7 @@ require_once("../partials/head.php");
                                                                                 <tr>
                                                                                     <td><?php echo $payrolls->code; ?></td>
                                                                                     <td><?php echo $payrolls->staff_name; ?></td>
-                                                                                    <td>Ksh <?php echo $payrolls->salary; ?></td>
+                                                                                    <td><?php echo number_format($payrolls->salary, 0, ',', '.'); ?> VNĐ</td>
                                                                                     <td><?php echo $payrolls->month; ?></td>
                                                                                 </tr>
                                                                             </tbody>
@@ -355,13 +355,13 @@ require_once("../partials/head.php");
                                             </div>
 
                                             <a class="badge badge-primary" data-toggle="modal" href="#update_<?php echo $payrolls->id; ?>">Cập nhật</a>
-                                            <!-- Update Modal -->
+                                            <!-- Modal Cập nhật -->
                                             <div class="modal fade" id="update_<?php echo $payrolls->id; ?>">
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Update <?php echo $payrolls->staff_name; ?> <?php echo $payrolls->month; ?> Payroll.</h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <h4 class="modal-title">Cập nhật bảng lương <?php echo $payrolls->staff_name; ?> tháng <?php echo $payrolls->month; ?>.</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
@@ -369,7 +369,7 @@ require_once("../partials/head.php");
                                                             <form method="POST" enctype="multipart/form-data">
                                                                 <div class="form-row mb-4">
                                                                     <div class="form-group col-md-12">
-                                                                        <label for="inputEmail4">Payroll Code</label>
+                                                                        <label for="inputEmail4">Mã lương</label>
                                                                         <input type="text" name="code" value="<?php echo $payrolls->code; ?>" class="form-control">
                                                                         <input type="hidden" name="id" value="<?php echo $payrolls->id; ?>" class="form-control">
 
@@ -395,12 +395,12 @@ require_once("../partials/head.php");
                                                                         </select>
                                                                     </div>
                                                                     <div class="form-group col-md-6">
-                                                                        <label for="inputEmail4">Salary</label>
+                                                                        <label for="inputEmail4">Lương</label>
                                                                         <input required type="text" value="<?php echo $payrolls->salary; ?>" name="salary" class="form-control">
                                                                     </div>
                                                                 </div>
                                                                 <div class="text-right">
-                                                                    <button type="submit" name="Update_Payroll" class="btn btn-warning mt-3">Update Payroll</button>
+                                                                    <button type="submit" name="Update_Payroll" class="btn btn-warning mt-3">Cập nhật bảng lương</button>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -412,18 +412,18 @@ require_once("../partials/head.php");
                                             </div>
 
                                             <a class="badge badge-danger" data-toggle="modal" href="#delete_<?php echo $payrolls->id; ?>">Xóa</a>
-                                            <!-- Delete Modal -->
+                                            <!-- Modal Xóa -->
                                             <div class="modal fade" id="delete_<?php echo $payrolls->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">XÁC NHẬN</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body text-center text-danger">
-                                                            <h4>Xóa bảng lương của <?php echo $payrolls->staff_name; ?>?</h4>
+                                                            <h4>Bạn có chắc chắn muốn xóa bảng lương của <?php echo $payrolls->staff_name; ?>?</h4>
                                                             <br>
                                                             <button type="button" class="text-center btn btn-success" data-dismiss="modal">Không</button>
                                                             <a href="payrolls.php?Delete=<?php echo $payrolls->id; ?>" class="text-center btn btn-danger"> Xóa </a>

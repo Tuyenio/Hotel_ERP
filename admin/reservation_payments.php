@@ -3,10 +3,10 @@ session_start();
 require_once('../config/config.php');
 require_once('../config/codeGen.php');
 require_once('../config/checklogin.php');
-sudo(); /* Invoke Admin Check Login */
+sudo(); /* Kiểm tra đăng nhập Quản trị viên */
 
 if (isset($_GET['delete'])) {
-    /* Delete Reservation Payment */
+    /* Xóa thanh toán đặt phòng */
     $id = $_GET['delete'];
     $adn = "DELETE FROM payments WHERE id =?";
     $stmt = $mysqli->prepare($adn);
@@ -14,10 +14,10 @@ if (isset($_GET['delete'])) {
     $stmt->execute();
     $stmt->close();
     if ($stmt) {
-        $success = "Deleted" && header("refresh:1; url=reservation_payments.php");
+        $success = "Đã xóa" && header("refresh:1; url=reservation_payments.php");
     } else {
-        //inject alert that task failed
-        $info = "Please Try Again Or Try Later";
+        //thông báo thất bại
+        $info = "Vui lòng thử lại sau";
     }
 }
 require_once("../partials/head.php");
@@ -25,16 +25,16 @@ require_once("../partials/head.php");
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên chính -->
         <?php require_once("../partials/admin_sidebar.php"); ?>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- Nội dung chính -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- Tiêu đề trang -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -65,12 +65,12 @@ require_once("../partials/head.php");
                         <table id="dt-1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Mã</th>
+                                    <th>Mã thanh toán</th>
                                     <th>Số tiền</th>
                                     <th>Tên khách hàng</th>
                                     <th>Phương thức thanh toán</th>
                                     <th>Ngày thanh toán</th>
-                                    <th>Quản lý</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
 
@@ -78,7 +78,7 @@ require_once("../partials/head.php");
                                 <?php
                                 $ret = "SELECT * FROM `payments` WHERE service_paid ='Reservations' ";
                                 $stmt = $mysqli->prepare($ret);
-                                $stmt->execute(); //ok
+                                $stmt->execute();
                                 $res = $stmt->get_result();
                                 while ($payments = $res->fetch_object()) {
                                 ?>
@@ -87,10 +87,10 @@ require_once("../partials/head.php");
                                         <td>Ksh <?php echo $payments->amt; ?></td>
                                         <td><?php echo $payments->cust_name; ?></td>
                                         <td><?php echo $payments->payment_means; ?></td>
-                                        <td><?php echo date('d M Y', strtotime($payments->created_at)); ?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($payments->created_at)); ?></td>
                                         <td>
                                             <a class="badge badge-success" data-toggle="modal" href="#receipt-<?php echo $payments->id; ?>">In hóa đơn</a>
-                                            <!-- Print Receipt -->
+                                            <!-- In hóa đơn -->
                                             <div class="modal fade" id="receipt-<?php echo $payments->id; ?>">
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
@@ -99,9 +99,9 @@ require_once("../partials/head.php");
                                                                 <div class="row">
                                                                     <div class="col-12 ">
                                                                         <h4 class="text-center">
-                                                                            <img height="100" width="200" src="../public/uploads/sys_logo/logo.png" class="img-thumbnail img-fluid" alt="System Logo">
+                                                                            <img height="100" width="200" src="../public/uploads/sys_logo/logo.png" class="img-thumbnail img-fluid" alt="Logo hệ thống">
                                                                             <br>
-                                                                            <small class="float-right">Date: <?php echo date('d M Y');?></small>
+                                                                            <small class="float-right">Ngày: <?php echo date('d/m/Y');?></small>
                                                                         </h4>
                                                                         <h4>
                                                                         NT Hotels Inc
@@ -144,20 +144,20 @@ require_once("../partials/head.php");
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Print Receipt -->
+                                            <!-- Kết thúc in hóa đơn -->
                                             <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $payments->id; ?>">Xóa</a>
-                                            <!-- Delete Confirmation -->
+                                            <!-- Xác nhận xóa -->
                                             <div class="modal fade" id="delete-<?php echo $payments->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">XÁC NHẬN</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body text-center text-danger">
-                                                            <h4>Xóa bản ghi thanh toán đặt phòng của <?php echo $payments->cust_name; ?>?</h4>
+                                                            <h4>Bạn có chắc chắn muốn xóa thanh toán đặt phòng của <?php echo $payments->cust_name; ?>?</h4>
                                                             <br>
                                                             <button type="button" class="text-center btn btn-success" data-dismiss="modal">Không</button>
                                                             <a href="reservation_payments.php?delete=<?php echo $payments->id; ?>" class="text-center btn btn-danger"> Xóa </a>
@@ -165,7 +165,7 @@ require_once("../partials/head.php");
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- End Confirmation -->
+                                            <!-- Kết thúc xác nhận -->
 
                                         </td>
                                     </tr>
