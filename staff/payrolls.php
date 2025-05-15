@@ -46,7 +46,7 @@ require_once("../partials/head.php");
                         <table id="reports" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Mã nhân viên</th>
+                                    <th>Mã lương</th>
                                     <th>Tháng</th>
                                     <th>Số tiền</th>
                                     <th>Tên nhân viên</th>
