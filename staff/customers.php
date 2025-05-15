@@ -2,9 +2,9 @@
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
-staff(); /* Invoke Staff Check Login */
+staff(); /* Kiểm tra đăng nhập nhân viên */
 
-// Handle Add Customer
+// Xử lý Thêm khách hàng
 if (isset($_POST['Add_Customer'])) {
     $name = $_POST['name'];
     $phone = $_POST['phone'];
@@ -17,13 +17,13 @@ if (isset($_POST['Add_Customer'])) {
     $stmt->bind_param('ssssss', $name, $phone, $email, $address, $id_number, $created_at);
     $stmt->execute();
     if ($stmt) {
-        $success = "Customer Added Successfully";
+        $success = "Thêm khách hàng thành công";
     } else {
-        $err = "Please Try Again";
+        $err = "Vui lòng thử lại";
     }
 }
 
-// Handle Update Customer
+// Xử lý Cập nhật khách hàng
 if (isset($_POST['Update_Customer'])) {
     $id = $_POST['id'];
     $name = $_POST['name'];
@@ -36,22 +36,22 @@ if (isset($_POST['Update_Customer'])) {
     $stmt->bind_param('ssssss', $name, $phone, $email, $address, $id_number, $id);
     $stmt->execute();
     if ($stmt) {
-        $success = "Customer Updated Successfully";
+        $success = "Cập nhật khách hàng thành công";
     } else {
-        $err = "Please Try Again";
+        $err = "Vui lòng thử lại";
     }
 }
 
-// Handle Delete Customer
+// Xử lý Xóa khách hàng
 if (isset($_GET['Delete_Customer'])) {
     $id = $_GET['Delete_Customer'];
     $stmt = $mysqli->prepare("DELETE FROM customers WHERE id=?");
     $stmt->bind_param('s', $id);
     $stmt->execute();
     if ($stmt) {
-        $success = "Customer Deleted Successfully";
+        $success = "Xóa khách hàng thành công";
     } else {
-        $err = "Please Try Again";
+        $err = "Vui lòng thử lại";
     }
 }
 
@@ -60,16 +60,16 @@ require_once('../partials/head.php');
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once('../partials/admin_nav.php'); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên chính -->
         <?php require_once('../partials/staff_sidebar.php'); ?>
 
-        <!-- Content Wrapper -->
+        <!-- Nội dung chính -->
         <div class="content-wrapper">
-            <!-- Content Header -->
+            <!-- Tiêu đề nội dung -->
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -78,7 +78,7 @@ require_once('../partials/head.php');
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="dashboard.php">Bảng điều khiển</a></li>
                                 <li class="breadcrumb-item active">Khách hàng</li>
                             </ol>
                         </div>
@@ -87,7 +87,7 @@ require_once('../partials/head.php');
             </div>
             <!-- /.content-header -->
 
-            <!-- Main content -->
+            <!-- Nội dung chính -->
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -145,7 +145,7 @@ require_once('../partials/head.php');
                         </div>
                     </div>
 
-                    <!-- Customer List -->
+                    <!-- Danh sách khách hàng -->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
@@ -161,11 +161,11 @@ require_once('../partials/head.php');
                                                     <th style="width: 15%">Họ tên</th>
                                                     <th style="width: 10%">Số điện thoại</th>
                                                     <th style="width: 15%">Email</th>
-                                                    <th style="width: 10%">CCCD</th>
+                                                    <th style="width: 10%">CMND/CCCD</th>
                                                     <th style="width: 15%">Địa chỉ</th>
                                                     <th style="width: 8%">Số phòng</th>
-                                                    <th style="width: 8%">Check-in</th>
-                                                    <th style="width: 8%">Check-out</th>
+                                                    <th style="width: 8%">Ngày nhận phòng</th>
+                                                    <th style="width: 8%">Ngày trả phòng</th>
                                                     <th style="width: 8%">Trạng thái</th>
                                                     <th style="width: 8%">Thao tác</th>
                                                 </tr>

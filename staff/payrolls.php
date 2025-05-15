@@ -3,35 +3,34 @@ session_start();
 require_once('../config/config.php');
 require_once('../config/codeGen.php');
 require_once('../config/checklogin.php');
-staff(); /* Invoke  Check Login */
-
+staff(); /* Kiểm tra đăng nhập */
 
 require_once("../partials/head.php");
 ?>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên chính -->
         <?php require_once("../partials/staff_sidebar.php"); ?>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- Nội dung chính -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- Tiêu đề nội dung -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Quản lý lương của tôi </h1>
+                            <h1>Quản lý lương của tôi</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="">HRM</a></li>
+                                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="dashboard.php">Bảng điều khiển</a></li>
+                                <li class="breadcrumb-item"><a href="">Quản lý nhân sự</a></li>
                                 <li class="breadcrumb-item active">Lương</li>
                             </ol>
                         </div>
@@ -51,7 +50,7 @@ require_once("../partials/head.php");
                                     <th>Tháng</th>
                                     <th>Số tiền</th>
                                     <th>Tên nhân viên</th>
-                                    <th>Tạo vào</th>
+                                    <th>Ngày tạo</th>
                                 </tr>
                             </thead>
 
@@ -60,7 +59,7 @@ require_once("../partials/head.php");
                                 $staff = $_SESSION['id'];
                                 $ret = "SELECT * FROM `payrolls` WHERE staff_id = '$staff' ";
                                 $stmt = $mysqli->prepare($ret);
-                                $stmt->execute(); //ok
+                                $stmt->execute();
                                 $res = $stmt->get_result();
                                 while ($payrolls = $res->fetch_object()) {
                                 ?>
@@ -71,7 +70,7 @@ require_once("../partials/head.php");
                                         <td><?php echo $payrolls->month; ?></td>
                                         <td>Ksh <?php echo $payrolls->salary; ?></td>
                                         <td><?php echo $payrolls->staff_name; ?></td>
-                                        <td><?php echo date('d M Y g:i', strtotime($payrolls->created_at)); ?></td>
+                                        <td><?php echo date('d/m/Y H:i', strtotime($payrolls->created_at)); ?></td>
                                     </tr>
                                 <?php
                                 } ?>

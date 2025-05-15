@@ -3,19 +3,19 @@ session_start();
 include('../config/config.php');
 
 if (isset($_POST['change_pass'])) {
-    /* Confirm Password */
+    /* Xác nhận mật khẩu */
     $error = 0;
     if (isset($_POST['new_password']) && !empty($_POST['new_password'])) {
         $new_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['new_password']))));
     } else {
         $error = 1;
-        $err = "New Password Cannot Be Empty";
+        $err = "Mật khẩu mới không được để trống";
     }
     if (isset($_POST['confirm_password']) && !empty($_POST['confirm_password'])) {
         $confirm_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['confirm_password']))));
     } else {
         $error = 1;
-        $err = "Confirmation Password Cannot Be Empty";
+        $err = "Xác nhận mật khẩu không được để trống";
     }
 
     if (!$error) {
@@ -25,7 +25,7 @@ if (isset($_POST['change_pass'])) {
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
             if ($new_password != $confirm_password) {
-                $err = "Password Does Not Match";
+                $err = "Mật khẩu không khớp";
             } else {
                 $email = $_SESSION['email'];
                 $query = "UPDATE staffs SET  password =? WHERE email =?";
@@ -33,9 +33,9 @@ if (isset($_POST['change_pass'])) {
                 $rc = $stmt->bind_param('ss', $new_password, $email);
                 $stmt->execute();
                 if ($stmt) {
-                    $success = "Password Changed" && header("refresh:1; url=index.php");
+                    $success = "Đổi mật khẩu thành công" && header("refresh:1; url=index.php");
                 } else {
-                    $err = "Please Try Again Or Try Later";
+                    $err = "Vui lòng thử lại sau";
                 }
             }
         }
@@ -47,13 +47,13 @@ require_once('../partials/head.php');
 <body class="hold-transition login-page">
     <div class="login-box">
         <?php
-        /* Persist System Settings */
+        /* Lấy thông tin cấu hình hệ thống */
         $ret = "SELECT * FROM `system_settings` ";
         $stmt = $mysqli->prepare($ret);
         $stmt->execute(); //ok
         $res = $stmt->get_result();
         while ($sys = $res->fetch_object()) {
-            /* Check For Missing Logo And Load Default */
+            /* Kiểm tra logo, nếu không có thì dùng mặc định */
             if ($sys_logo = '') {
                 $logo_dir = '../public/uploads/sys_logo/logo.png';
             } else {
@@ -61,7 +61,7 @@ require_once('../partials/head.php');
             }
         ?>
             <div class="login-logo">
-                <!-- Adjust This Dimensions To Fit Your Logo -->
+                <!-- Điều chỉnh kích thước logo tại đây -->
                 <img class="img-fluid" height="100" width="150" src="<?php echo $logo_dir; ?>" alt="">
             </div>
         <?php
@@ -77,13 +77,13 @@ require_once('../partials/head.php');
                 while ($row = $res->fetch_object()) {
                 ?>
                     <p class="login-box-msg">
-                        <?php echo $row->username; ?> You Are Only One Step A Way From Your New Password, Recover Your Password Now.
+                        <?php echo $row->username; ?>, bạn chỉ còn một bước nữa để đặt lại mật khẩu mới. Hãy khôi phục mật khẩu ngay bây giờ.
                         <span class="badge badge-success"><?php echo $row->password; ?></span>
                     </p>
                 <?php } ?>
                 <form method="post">
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="new_password" placeholder="Password">
+                        <input type="password" class="form-control" name="new_password" placeholder="Mật khẩu mới">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -91,7 +91,7 @@ require_once('../partials/head.php');
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password">
+                        <input type="password" class="form-control" name="confirm_password" placeholder="Xác nhận mật khẩu">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -100,7 +100,7 @@ require_once('../partials/head.php');
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" name="change_pass" class="btn btn-primary btn-block">Change password</button>
+                            <button type="submit" name="change_pass" class="btn btn-primary btn-block">Đổi mật khẩu</button>
                         </div>
                     </div>
                 </form>

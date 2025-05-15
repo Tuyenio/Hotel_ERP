@@ -196,7 +196,7 @@ require_once("../partials/head.php");
                         <div class="modal-dialog  modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Điền tất cả các giá trị </h4>
+                                    <h4 class="modal-title">Điền tất cả các giá trị</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -205,7 +205,7 @@ require_once("../partials/head.php");
                                     <form method="POST" enctype="multipart/form-data">
                                         <div class="form-row mb-4">
                                             <div style="display:none" class="form-group col-md-6">
-                                                <label for="inputEmail4">Id</label>
+                                                <label for="inputEmail4">Mã số</label>
                                                 <input type="text" name="id" value="<?php echo $ID; ?>" class="form-control">
                                                 <input type="text" name="month" value="<?php echo date('M'); ?>" class="form-control">
                                                 <input type="text" name="service_paid" value="Doanh thu nhà hàng" class="form-control">
@@ -222,7 +222,7 @@ require_once("../partials/head.php");
                                                     <option selected>Tiền mặt</option>
                                                     <option>Mpesa</option>
                                                     <option>Thẻ tín dụng</option>
-                                                    <option>Tiền Airtel</option>
+                                                    <option>Airtel Money</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
@@ -252,11 +252,11 @@ require_once("../partials/head.php");
                         <table id="dt-1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Mã</th>
+                                    <th>Mã doanh thu</th>
                                     <th>Số tiền</th>
                                     <th>Tên khách hàng</th>
                                     <th>Phương thức thanh toán</th>
-                                    <th>Ngày</th>
+                                    <th>Ngày tạo</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -264,7 +264,7 @@ require_once("../partials/head.php");
                                 <?php
                                 $ret = "SELECT * FROM `payments` WHERE service_paid ='Doanh thu nhà hàng' ORDER BY `payments`.`created_at` ASC ";
                                 $stmt = $mysqli->prepare($ret);
-                                $stmt->execute(); //ok
+                                $stmt->execute();
                                 $res = $stmt->get_result();
                                 while ($payments = $res->fetch_object()) {
                                 ?>
@@ -273,9 +273,9 @@ require_once("../partials/head.php");
                                         <td><?php echo $payments->amt; ?></td>
                                         <td><?php echo $payments->cust_name; ?></td>
                                         <td><?php echo $payments->payment_means; ?></td>
-                                        <td><?php echo date('d M Y g:ia', strtotime($payments->created_at)); ?></td>
+                                        <td><?php echo date('d/m/Y H:i', strtotime($payments->created_at)); ?></td>
                                         <td>
-                                            <a class="badge badge-success" data-toggle="modal" href="#receipt-<?php echo $payments->id; ?>">Biên lai</a>
+                                            <a class="badge badge-success" data-toggle="modal" href="#receipt-<?php echo $payments->id; ?>">Xem biên lai</a>
                                             <!-- Modal Biên lai -->
                                             <div class="modal fade" id="receipt-<?php echo $payments->id; ?>">
                                                 <div class="modal-dialog modal-xl">
@@ -287,7 +287,7 @@ require_once("../partials/head.php");
                                                                         <h4 class="text-center">
                                                                             <img height="100" width="200" src="../public/uploads/sys_logo/logo.png" class="img-thumbnail img-fluid" alt="Logo hệ thống">
                                                                             <br>
-                                                                            <small class="float-right">Ngày: <?php echo date('d M Y'); ?></small>
+                                                                            <small class="float-right">Ngày: <?php echo date('d/m/Y'); ?></small>
                                                                         </h4>
                                                                         <h4>
                                                                             NT Hotels Inc
@@ -304,13 +304,13 @@ require_once("../partials/head.php");
                                                                                     <th>Số tiền đã thanh toán</th>
                                                                                     <th>Dịch vụ đã thanh toán</th>
                                                                                     <th>Phương thức thanh toán</th>
-                                                                                    <th>Mã thanh toán</th>
+                                                                                    <th>Mã doanh thu</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td><?php echo $payments->cust_name; ?></td>
-                                                                                    <td>Ksh <?php echo $payments->amt; ?></td>
+                                                                                    <td><?php echo $payments->amt; ?> VNĐ</td>
                                                                                     <td><?php echo $payments->service_paid; ?></td>
                                                                                     <td><?php echo $payments->payment_means; ?></td>
                                                                                     <td><?php echo $payments->code; ?></td>
@@ -325,7 +325,7 @@ require_once("../partials/head.php");
                                                         <div class="modal-footer justify-content-between">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
 
-                                                            <button id="print" onclick="printContent('Print_Receipt');" type="button" class="btn btn-primary">In</button>
+                                                            <button id="print" onclick="printContent('Print_Receipt');" type="button" class="btn btn-primary">In biên lai</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -346,7 +346,7 @@ require_once("../partials/head.php");
                                                             <form method="POST" enctype="multipart/form-data">
                                                                 <div class="form-row mb-4">
                                                                     <div style="display:none" class="form-group col-md-6">
-                                                                        <label for="inputEmail4">Id</label>
+                                                                        <label for="inputEmail4">Mã số</label>
                                                                         <input type="text" name="id" value="<?php echo $payments->id; ?>" class="form-control">
                                                                         <input type="text" name="month" value="<?php echo date('M'); ?>" class="form-control">
                                                                         <input type="text" name="service_paid" value="Doanh thu nhà hàng" class="form-control">
@@ -380,7 +380,7 @@ require_once("../partials/head.php");
                                                                 </div>
 
                                                                 <div class="text-right">
-                                                                    <button type="submit" name="Update_Sale" class="btn btn-primary mt-3">Gửi</button>
+                                                                    <button type="submit" name="Update_Sale" class="btn btn-primary mt-3">Cập nhật</button>
                                                                 </div>
                                                             </form>
                                                         </div>

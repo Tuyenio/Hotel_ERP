@@ -2,31 +2,31 @@
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
-staff(); /* Invoke Staff Check Login */
+staff(); /* Kiểm tra đăng nhập nhân viên */
 
-// Handle Check In
+// Xử lý Check In
 if (isset($_POST['Check_In'])) {
     $staff_id = $_SESSION['id'];
     $date = date('Y-m-d');
     $check_in = date('H:i:s');
-    $status = 'Present';
+    $status = 'Có mặt';
     
-    // Check if already checked in today
+    // Kiểm tra đã check in hôm nay chưa
     $check_stmt = $mysqli->prepare("SELECT id FROM attendance WHERE staff_id = ? AND date = ?");
     $check_stmt->bind_param('ss', $staff_id, $date);
     $check_stmt->execute();
     $check_result = $check_stmt->get_result();
     
     if($check_result->num_rows == 0) {
-        // Generate a unique ID for the attendance record
+        // Tạo ID duy nhất cho bản ghi chấm công
         $att_id = uniqid();
         
-        // Insert new attendance record
+        // Thêm bản ghi chấm công mới
         $att_stmt = $mysqli->prepare("INSERT INTO attendance (id, staff_id, date, check_in, status) VALUES (?, ?, ?, ?, ?)");
         $att_stmt->bind_param('sssss', $att_id, $staff_id, $date, $check_in, $status);
         $att_stmt->execute();
         if($att_stmt) {
-            $success = "Đã check in thành công";
+            $success = "Check in thành công";
         } else {
             $err = "Vui lòng thử lại";
         }
@@ -35,20 +35,20 @@ if (isset($_POST['Check_In'])) {
     }
 }
 
-// Handle Check Out
+// Xử lý Check Out
 if (isset($_POST['Check_Out'])) {
     $staff_id = $_SESSION['id'];
     $date = date('Y-m-d');
     $check_out = date('H:i:s');
     
-    // Update attendance record with check out time
+    // Cập nhật giờ check out cho bản ghi chấm công
     $stmt = $mysqli->prepare("UPDATE attendance SET check_out = ? WHERE staff_id = ? AND date = ? AND check_out IS NULL");
     $stmt->bind_param('sss', $check_out, $staff_id, $date);
     $stmt->execute();
     if($stmt) {
-        $success = "Checked Out Successfully";
+        $success = "Check out thành công";
     } else {
-        $err = "Please Try Again";
+        $err = "Vui lòng thử lại";
     }
 }
 
@@ -57,16 +57,16 @@ require_once('../partials/head.php');
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once('../partials/admin_nav.php'); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên trái -->
         <?php require_once('../partials/staff_sidebar.php'); ?>
 
-        <!-- Content Wrapper -->
+        <!-- Nội dung chính -->
         <div class="content-wrapper">
-            <!-- Content Header -->
+            <!-- Tiêu đề nội dung -->
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -75,7 +75,7 @@ require_once('../partials/head.php');
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="dashboard.php">Bảng điều khiển</a></li>
                                 <li class="breadcrumb-item active">Chấm công</li>
                             </ol>
                         </div>
@@ -84,7 +84,7 @@ require_once('../partials/head.php');
             </div>
             <!-- /.content-header -->
 
-            <!-- Main content -->
+            <!-- Nội dung chính -->
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -98,7 +98,7 @@ require_once('../partials/head.php');
                                     $staff_id = $_SESSION['id'];
                                     $date = date('Y-m-d');
                                     
-                                    // Check today's attendance
+                                    // Kiểm tra chấm công hôm nay
                                     $check = $mysqli->prepare("SELECT * FROM attendance WHERE staff_id = ? AND date = ?");
                                     $check->bind_param('ss', $staff_id, $date);
                                     $check->execute();
@@ -113,13 +113,13 @@ require_once('../partials/head.php');
                                         <?php if(!$today) { ?>
                                             <form method="POST">
                                                 <button type="submit" name="Check_In" class="btn btn-success btn-lg">
-                                                    <i class="fas fa-sign-in-alt"></i> Check In
+                                                    <i class="fas fa-sign-in-alt"></i> Check in
                                                 </button>
                                             </form>
                                         <?php } else if(!$today->check_out) { ?>
                                             <form method="POST">
                                                 <button type="submit" name="Check_Out" class="btn btn-danger btn-lg">
-                                                    <i class="fas fa-sign-out-alt"></i> Check Out
+                                                    <i class="fas fa-sign-out-alt"></i> Check out
                                                 </button>
                                             </form>
                                             <p class="mt-3">Đã check in lúc: <?php echo date('H:i:s', strtotime($today->check_in)); ?></p>
@@ -136,7 +136,7 @@ require_once('../partials/head.php');
                         </div>
                     </div>
 
-                    <!-- Attendance History -->
+                    <!-- Lịch sử chấm công -->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
@@ -148,8 +148,8 @@ require_once('../partials/head.php');
                                         <thead>
                                             <tr>
                                                 <th>Ngày</th>
-                                                <th>Check In</th>
-                                                <th>Check Out</th>
+                                                <th>Giờ vào</th>
+                                                <th>Giờ ra</th>
                                                 <th>Trạng thái</th>
                                             </tr>
                                         </thead>
@@ -182,15 +182,15 @@ require_once('../partials/head.php');
     <?php require_once('../partials/scripts.php'); ?>
     
     <script>
-    // Update current time
+    // Cập nhật giờ hiện tại
     function updateTime() {
         const now = new Date();
         document.getElementById('current-time').textContent = now.toLocaleTimeString();
     }
     
-    // Update time every second
+    // Cập nhật mỗi giây
     setInterval(updateTime, 1000);
-    updateTime(); // Initial update
+    updateTime(); // Cập nhật lần đầu
     </script>
 </body>
 </html> 

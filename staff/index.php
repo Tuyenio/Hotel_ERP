@@ -1,23 +1,23 @@
 <?php
 session_start();
 include('../config/config.php');
-//handle login
+//xử lý đăng nhập
 if (isset($_POST['login'])) {
 
     $email = $_POST['email'];
-    $password = sha1(md5($_POST['password'])); //double encrypt to increase security
+    $password = sha1(md5($_POST['password'])); //mã hóa hai lớp để tăng bảo mật
     $stmt = $mysqli->prepare("SELECT email, password, id, number  FROM staffs  WHERE (email =? AND password =?)");
-    $stmt->bind_param('ss', $email, $password); //bind fetched parameters
-    $stmt->execute(); //execute bind 
-    $stmt->bind_result($email, $password, $id, $staff_number); //bind result
+    $stmt->bind_param('ss', $email, $password); //gán tham số
+    $stmt->execute(); //thực thi
+    $stmt->bind_result($email, $password, $id, $staff_number); //gán kết quả
     $rs = $stmt->fetch();
     $_SESSION['id'] = $id;
     $_SESSION['number'] = $staff_number;
     if ($rs) {
-        //if its successful
+        //nếu thành công
         header("location:dashboard.php");
     } else {
-        $err = "Access Denied Please Check Your Credentials";
+        $err = "Truy cập bị từ chối. Vui lòng kiểm tra lại thông tin đăng nhập.";
     }
 }
 
@@ -27,13 +27,13 @@ require_once('../partials/head.php');
 <body class="hold-transition login-page">
     <div class="login-box">
         <?php
-        /* Persist System Settings */
+        /* Lấy thông tin cấu hình hệ thống */
         $ret = "SELECT * FROM `system_settings` ";
         $stmt = $mysqli->prepare($ret);
-        $stmt->execute(); //ok
+        $stmt->execute();
         $res = $stmt->get_result();
         while ($sys = $res->fetch_object()) {
-            /* Check For Missing Logo And Load Default */
+            /* Kiểm tra logo, nếu thiếu thì dùng mặc định */
             if ($sys_logo = '') {
                 $logo_dir = '../public/uploads/sys_logo/logo.png';
             } else {
@@ -41,14 +41,14 @@ require_once('../partials/head.php');
             }
         ?>
             <div class="login-logo">
-                <!-- Adjust This Dimensions To Fit Your Logo -->
+                <!-- Điều chỉnh kích thước logo tại đây -->
                 <img class="img-fluid" height="100" width="150" src="<?php echo $logo_dir; ?>" alt="">
             </div>
         <?php
         } ?>
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Đăng nhập</p>
+                <p class="login-box-msg">Đăng nhập nhân viên</p>
                 <form method="post">
                     <div class="input-group mb-3">
                         <input type="email" required class="form-control" name="email" placeholder="Email">
@@ -60,7 +60,7 @@ require_once('../partials/head.php');
                     </div>
 
                     <div class="input-group mb-3">
-                        <input type="password" required class="form-control" name="password" placeholder="Password">
+                        <input type="password" required class="form-control" name="password" placeholder="Mật khẩu">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -69,10 +69,10 @@ require_once('../partials/head.php');
                     </div>
                     <div class="row">
                         <div class="col-8">
-                            <a href="../admin/" class="btn btn-primary btn-block">Đăng nhập Admin</a>
+                            <a href="../admin/" class="btn btn-primary btn-block">Đăng nhập Quản trị viên</a>
                         </div>
                         <div class="col-4">
-                            <button type="submit" name="login" class="btn btn-primary btn-block">NV</button>
+                            <button type="submit" name="login" class="btn btn-primary btn-block">Nhân viên</button>
                         </div>
                     </div>
                 </form>
@@ -81,7 +81,7 @@ require_once('../partials/head.php');
                     <a href="../">Trang chủ</a>
                 </p>
                 <p class="mb-1">
-                    <a href="reset_password.php">Bạn quên mật khẩu?</a>
+                    <a href="reset_password.php">Quên mật khẩu?</a>
                 </p>
             </div>
         </div>

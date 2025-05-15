@@ -3,10 +3,10 @@ session_start();
 require_once('../config/config.php');
 require_once('../config/codeGen.php');
 require_once('../config/checklogin.php');
-staff(); /* Invoke  Check Login */
+staff(); /* Kiểm tra đăng nhập */
 
 if (isset($_POST['Pay_Reservation'])) {
-    /* Error Handling  */
+    /* Xử lý lỗi */
     $error = 0;
     if (isset($_POST['id']) && !empty($_POST['id'])) {
         $id = mysqli_real_escape_string($mysqli, trim($_POST['id']));
@@ -50,7 +50,7 @@ if (isset($_POST['Pay_Reservation'])) {
         $err = "Dịch vụ thanh toán không được để trống";
     }
 
-    /* No Need To Do Error Handling On These */
+    /* Không cần kiểm tra lỗi cho các trường này */
     $month = $_POST['month'];
 
     $status = $_POST['status'];
@@ -58,7 +58,7 @@ if (isset($_POST['Pay_Reservation'])) {
 
 
     if (!$error) {
-        //Prevent Double Entries Of Payments
+        //Ngăn chặn thanh toán trùng lặp
         $sql = "SELECT * FROM  payments WHERE code = '$code'  ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
@@ -91,16 +91,16 @@ require_once("../partials/head.php");
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Thanh điều hướng -->
         <?php require_once("../partials/admin_nav.php"); ?>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Thanh bên chính -->
         <?php require_once("../partials/staff_sidebar.php"); ?>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- Nội dung trang -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- Tiêu đề trang -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -132,7 +132,7 @@ require_once("../partials/head.php");
                                     <th>Tên khách</th>
                                     <th>Số ngày đặt</th>
                                     <th>Số tiền</th>
-                                    <th>Đặt vào</th>
+                                    <th>Ngày đặt</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -144,14 +144,14 @@ require_once("../partials/head.php");
                                 $stmt->execute(); //ok
                                 $res = $stmt->get_result();
                                 while ($reservation = $res->fetch_object()) {
-                                    //Get days reserved room
+                                    //Tính số ngày đặt phòng
                                     $date1 = date_create("$reservation->check_in");
                                     $date2 = date_create("$reservation->check_out");
 
                                     $diff = date_diff($date1, $date2);
                                     $days_stayed =  $diff->format("%a");
 
-                                    //Payment
+                                    //Thanh toán
                                     $amount = $days_stayed * $reservation->room_cost;
 
                                 ?>
@@ -165,13 +165,13 @@ require_once("../partials/head.php");
                                         <td><?php echo date('d M Y', strtotime($reservation->created_at)); ?></td>
                                         <td>
                                             <a class="badge badge-warning" data-toggle="modal" href="#pay_<?php echo $reservation->id; ?>"> Thanh toán phí đặt phòng </a>
-                                            <!-- Payment Modal -->
+                                            <!-- Modal thanh toán -->
                                             <div class="modal fade " id="pay_<?php echo $reservation->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">Điền đầy đủ thông tin </h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
@@ -182,9 +182,9 @@ require_once("../partials/head.php");
                                                                         <label for="inputEmail4">Id</label>
                                                                         <input type="text" name="id" value="<?php echo $ID; ?>" class="form-control">
                                                                         <input type="text" name="month" value="<?php echo date('M'); ?>" class="form-control">
-                                                                        <input type="text" name="service_paid" value="Reservations" class="form-control">
+                                                                        <input type="text" name="service_paid" value="Đặt phòng" class="form-control">
                                                                         <input type="text" name="r_id" value="<?php echo $reservation->id; ?>" class="form-control">
-                                                                        <input type="text" name="status" value="Paid" class="form-control">
+                                                                        <input type="text" name="status" value="Đã thanh toán" class="form-control">
 
                                                                     </div>
                                                                 </div>
@@ -224,7 +224,7 @@ require_once("../partials/head.php");
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Payment Modal -->
+                                            <!-- Kết thúc modal thanh toán -->
                                         </td>
                                     </tr>
                                 <?php
