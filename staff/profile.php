@@ -124,7 +124,7 @@ require_once('../partials/head.php');
 
         <!-- Thanh bên trái -->
         <?php
-        require_once("../partials/admin_sidebar.php");
+        require_once("../partials/staff_sidebar.php"); // Sử dụng sidebar của nhân viên thay vì admin
         $id = $_SESSION['id'];
         $ret = "SELECT * FROM `staffs` WHERE id ='$id' ";
         $stmt = $mysqli->prepare($ret);
