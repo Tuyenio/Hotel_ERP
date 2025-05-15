@@ -35,7 +35,7 @@ while ($sys = $res->fetch_object()) {
                     <div class="row">
                         <div class="col">
                             <div class="section_title text-center">
-                                <div>Welcome</div>
+                                <div>Chào mừng</div>
                                 <h1><?php echo $sys->welcome_heading; ?></h1>
                             </div>
                         </div>
@@ -106,7 +106,7 @@ while ($sys = $res->fetch_object()) {
                                     <div class="col-lg-4 footer_col">
                                         <div class="footer_info d-flex flex-column align-items-lg-end align-items-center justify-content-start">
                                             <div class="text-center">
-                                                <div>Phone:</div>
+                                                <div>Điện thoại:</div>
                                                 <div><?php echo $sys->contacts_phone; ?></div>
                                             </div>
                                         </div>
@@ -114,7 +114,7 @@ while ($sys = $res->fetch_object()) {
                                     <div class="col-lg-4 footer_col">
                                         <div class="footer_info d-flex flex-column align-items-center justify-content-start">
                                             <div class="text-center">
-                                                <div>Address:</div>
+                                                <div>Địa chỉ:</div>
                                                 <div><?php echo $sys->contacts_addres; ?></div>
                                             </div>
                                         </div>
@@ -122,7 +122,7 @@ while ($sys = $res->fetch_object()) {
                                     <div class="col-lg-4 footer_col">
                                         <div class="footer_info d-flex flex-column align-items-lg-start align-items-center justify-content-start">
                                             <div class="text-center">
-                                                <div>Mail:</div>
+                                                <div>Email:</div>
                                                 <div><?php echo $sys->contacts_email; ?></div>
                                             </div>
                                         </div>

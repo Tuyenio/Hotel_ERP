@@ -1,6 +1,6 @@
 <?php
 require_once('config/config.php');
-/* Persiste System Settigs On Landing Pages */
+/* Lưu các thiết lập hệ thống trên trang đích */
 $ret = "SELECT * FROM `system_settings` ";
 $stmt = $mysqli->prepare($ret);
 $stmt->execute(); //ok
@@ -69,7 +69,7 @@ while ($sys = $res->fetch_object()) {
                                     <div class="col-lg-4 footer_col">
                                         <div class="footer_info d-flex flex-column align-items-lg-end align-items-center justify-content-start">
                                             <div class="text-center">
-                                                <div>Điện thoại liên hệ:</div>
+                                                <div>Điện thoại:</div>
                                                 <div><?php echo $sys->contacts_phone; ?></div>
                                             </div>
                                         </div>
@@ -85,7 +85,7 @@ while ($sys = $res->fetch_object()) {
                                     <div class="col-lg-4 footer_col">
                                         <div class="footer_info d-flex flex-column align-items-lg-start align-items-center justify-content-start">
                                             <div class="text-center">
-                                                <div>Thư điện tử:</div>
+                                                <div>Email:</div>
                                                 <div><?php echo $sys->contacts_email; ?></div>
                                             </div>
                                         </div>
