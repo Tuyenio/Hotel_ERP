@@ -1,60 +1,43 @@
 <?php
 include('../config/pdoconfig.php');
 
-//Room ID
+// Mã phòng
 if (!empty($_POST["RNumber"])) {
     $id = $_POST['RNumber'];
     $stmt = $DB_con->prepare("SELECT * FROM rooms WHERE number = :id ");
     $stmt->execute(array(':id' => $id));
-?>
-<?php
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-?>
-<?php echo htmlentities($row['id']); ?>
-<?php
+        echo 'Mã phòng: ' . htmlentities($row['id']);
     }
 }
 
-//Room Price
+// Giá phòng
 if (!empty($_POST["RID"])) {
     $id = $_POST['RID'];
     $stmt = $DB_con->prepare("SELECT * FROM  rooms WHERE number = :id ");
     $stmt->execute(array(':id' => $id));
-?>
-<?php
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-?>
-<?php echo htmlentities($row['price']); ?>
-<?php
+        echo 'Giá phòng: ' . htmlentities($row['price']);
     }
 }
 
-//Room Type
+// Loại phòng
 if (!empty($_POST["RCost"])) {
     $id = $_POST['RCost'];
     $stmt = $DB_con->prepare("SELECT * FROM  rooms WHERE number = :id ");
     $stmt->execute(array(':id' => $id));
-?>
-<?php
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-?>
-<?php echo htmlentities($row['type']); ?>
-<?php
+        echo 'Loại phòng: ' . htmlentities($row['type']);
     }
 }
 
-
-/* Staff Details */
+/* Thông tin nhân viên */
 if (!empty($_POST["StaffNumber"])) {
     $id = $_POST['StaffNumber'];
     $stmt = $DB_con->prepare("SELECT * FROM staffs WHERE number = :id ");
     $stmt->execute(array(':id' => $id));
-?>
-<?php
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-?>
-<?php echo htmlentities($row['id']); ?>
-<?php
+        echo 'Mã nhân viên: ' . htmlentities($row['id']);
     }
 }
 
@@ -62,11 +45,7 @@ if (!empty($_POST["StaffID"])) {
     $id = $_POST['StaffID'];
     $stmt = $DB_con->prepare("SELECT * FROM staffs WHERE number = :id ");
     $stmt->execute(array(':id' => $id));
-?>
-<?php
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-?>
-<?php echo htmlentities($row['name']); ?>
-<?php
+        echo 'Tên nhân viên: ' . htmlentities($row['name']);
     }
 }
