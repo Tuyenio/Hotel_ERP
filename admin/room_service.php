@@ -196,7 +196,7 @@ require_once("../partials/head.php");
                         <table id="dt-1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Số nhân viên</th>
+                                    <th>Mã nhân viên</th>
                                     <th>Tên nhân viên</th>
                                     <th>Phòng được phân công</th>
                                     <th>Ngày phân công</th>
